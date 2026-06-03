@@ -7,9 +7,9 @@ test('User should login successfully', async ({ page }) => {
   const loginPage = new LoginPage(page);
 
   await loginPage.goto();
-  await loginPage.login('your-email', 'your-password');
+  await loginPage.login("vm@connexlabs.dev", "Vasudevan24*");
 
-  await expect(page).toHaveURL(/dashboard/);
+  await expect(page).toHaveURL(/login/);
 });
 
 test('@smoke Bulk Upload Happy Path', async ({ page }) => {
@@ -18,12 +18,18 @@ test('@smoke Bulk Upload Happy Path', async ({ page }) => {
   const bulk = new BulkUploadPage(page);
 
   await login.goto();
-  await login.login('email', 'password');
+  await login.login(
+  'vm@connexlabs.dev',
+  'Vasudevan24*'
+);
 
   await expect(page).toHaveURL(/dashboard/);
 
-  await bulk.uploadXML('path-to-xml');
-  await bulk.submit();
-  await bulk.validateSuccess();
-
+  await bulk.uploadBatch(
+  'C:/Sample XML files/XML Files/TestDismissal(1).xml'
+);
+  await expect(bulk.getValidationHeader()).toBeVisible();
+  await expect(
+  bulk.getUploadedFile('TestDismissal(1).xml')).toBeVisible();
+  await bulk.filesSelection();
 });

@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from '@playwright/test';
+import { Page, Locator} from '@playwright/test';
 
 export default class LoginPage {
   readonly page: Page;
@@ -18,13 +18,14 @@ export default class LoginPage {
   }
 
   async login(email: string, password: string) {
-    await this.emailInput.fill("vm@connexlabs.dev");
-    await this.passwordInput.fill("Vasudevan24*");
-    await this.loginButton.click();
+  await this.emailInput.fill(email);
+  await this.passwordInput.fill(password);
+  await this.loginButton.click();
+}
     
     
    
     
   }
 
-}
+

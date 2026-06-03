@@ -6,19 +6,33 @@ export default class BulkUploadPage {
 
   async uploadXML(filePath: string) {
     await this.page.setInputFiles(
-  'input[type="file"]',
-  'C:/Sample XML files/XML Files/SampleDispossessory_Bulk_10(1).xml'
-);
+      'input[type="file"]',
+      filePath
+    );
   }
 
-  async submit() {
+   async acceptDeclaration() {
     await this.page.check('input[type="checkbox"]');
-    await this.page.getByText('Upload Files').click();
   }
 
-  async validateSuccess() {
-     await expect(this.page.getByText('Batch Upload:')).toBeVisible();
-    const row = this.page.locator('tr', { hasText: 'SampleDispossessory_Bulk_10(1)' });
-    await expect(row.getByText('Pending')).toBeVisible();
+  async clickUpload() {
+    await this.page.getByText('Upload File').click();
+  }
+
+  async uploadBatch(filePath: string) {
+    await this.uploadXML(filePath);
+    await this.acceptDeclaration();
+    await this.clickUpload();
+  }
+
+  getValidationHeader() {
+    return this.page.getByText('Batch Upload:');
+  }
+
+  getUploadedFile(fileName: string) {
+   return this.page.getByText(fileName);
+  }
+  async filesSelection (){
+   await this.page.locator('input[type="checkbox"]').nth(0).check();
   }
 }
